@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>To-Do List</title>
+  <style>
+    .concluida { text-decoration: line-through; color: gray; }
+  </style>
+</head>
+<body>
+
+  <h1>Lista de Tarefas</h1>
+
+  <p id="contador">Total: 0</p>
+
+  <input type="text" id="inputTarefa" placeholder="Nome da tarefa" />
+  <input type="date" id="inputData" />
+  <button onclick="adicionar()">Adicionar</button>
+  <p id="erro" style="color:red"></p>
+
+  <ul id="lista"></ul>
+
+  <script>
+    var total = 0;
+
+    function adicionar() {
+      var nome = document.getElementById('inputTarefa').value.trim();
+      var data = document.getElementById('inputData').value;
+      var erro = document.getElementById('erro');
+
+      if (nome === '' || data === '') {
+        erro.textContent = 'Preencha todos os campos.';
+        return;
+      }
+      if (nome.length < 3) {
+        erro.textContent = 'A tarefa precisa ter pelo menos 3 caracteres.';
+        return;
+      }
+
+      erro.textContent = '';
+
+      var li = document.createElement('li');
+      li.innerHTML =
+        '<span>' + nome + ' - ' + data + '</span> ' +
+        '<button onclick="concluir(this)">Concluir</button> ' +
+        '<button onclick="remover(this)">Remover</button>';
+
+      document.getElementById('lista').appendChild(li);
+
+      document.getElementById('inputTarefa').value = '';
+      document.getElementById('inputData').value = '';
+
+      total++;
+      document.getElementById('contador').textContent = 'Total: ' + total;
+    }
+
+    function concluir(btn) {
+      var span = btn.parentElement.querySelector('span');
+      span.classList.toggle('concluida');
+    }
+
+    function remover(btn) {
+      btn.parentElement.remove();
+      total--;
+      document.getElementById('contador').textContent = 'Total: ' + total;
+    }
+  </script>
+
+</body>
+</html>
