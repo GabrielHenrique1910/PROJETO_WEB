@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Carrinho de Compras</h1>
+
+        <!-- Filtro de produtos -->
+        <div class="filter">
+            <label for="filterSelect">Filtrar produtos:</label>
+            <select id="filterSelect">
+                <option value="all">Todos</option>
+                <option value="under50">Até R$50</option>
+                <option value="over50">Acima de R$50</option>
+            </select>
+        </div>
+
+        <!-- Layout principal -->
+        <main class="main">
+            <!-- Lista de produtos -->
+            <section class="products" id="productsSection">
+                <h2>Produtos</h2>
+                <div id="productList"></div>
+            </section>
+
+            <!-- Carrinho -->
+            <section class="cart" id="cartSection">
+                <h2>Carrinho</h2>
+                <div id="cartItems"></div>
+                <p id="emptyCartMsg" class="empty-msg">Carrinho vazio</p>
+                <div class="total">
+                    <span>Total:</span>
+                    <strong id="totalValue">R$ 0,00</strong>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
