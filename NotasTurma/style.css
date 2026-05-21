@@ -1,0 +1,152 @@
+/* Estilização geral da página */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-image: url(Background.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #e0e0e0;
+}
+
+/* Caixa principal do sistema */
+.container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+h1, h2 {
+    color: #ffffff;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Bloco gerado para cada aluno */
+.student {
+    background-color: #2d2d2d;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border-left: 4px solid #3498db;
+}
+
+.student h3 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.results {
+    margin-top: 30px;
+}
+
+/* Tabela com os resultados individuais */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.results-table th,
+.results-table td {
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: center;
+    color: #e0e0e0;
+}
+
+.results-table th {
+    background-color: #3498db;
+    color: white;
+}
+
+.results-table tr:nth-child(even) {
+    background-color: #2d2d2d;
+}
+
+.results-table tr:hover {
+    background-color: #353535;
+}
+
+/* Área do relatório estatístico */
+.stats {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #2d2d2d;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.stats li {
+    margin-bottom: 8px;
+}
+
+.status-aprovado {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.status-recuperacao {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.status-reprovado {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #1e1e1e;
+    border-left: 4px solid #27ae60;
+    color: #e0e0e0;
+}
