@@ -69,7 +69,7 @@ button:hover {
 }
 
 /* Bloco gerado para cada aluno */
-.student {
+.estudante {
     background-color: #2d2d2d;
     padding: 15px;
     margin-bottom: 15px;
@@ -77,7 +77,7 @@ button:hover {
     border-left: 4px solid #3498db;
 }
 
-.student h3 {
+.estudante h3 {
     margin-top: 0;
     color: #ffffff;
 }
