@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (let i = 0; i < qtdAlunos; i++) {
             const alunoDiv = document.createElement('div');
-            alunoDiv.className = 'student';
+            alunoDiv.className = 'estudante';
 
             alunoDiv.innerHTML = `
                 <h3>Aluno ${i + 1}</h3>
