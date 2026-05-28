@@ -127,21 +127,6 @@ button:hover {
     margin-bottom: 8px;
 }
 
-.status-aprovado {
-    color: #27ae60;
-    font-weight: bold;
-}
-
-.status-recuperacao {
-    color: #f39c12;
-    font-weight: bold;
-}
-
-.status-reprovado {
-    color: #e74c3c;
-    font-weight: bold;
-}
-
 .message {
     margin-top: 20px;
     padding: 15px;
