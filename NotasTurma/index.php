@@ -116,16 +116,6 @@
                 </thead>
                 <tbody>
                     <?php foreach ($alunos as $aluno): ?>
-                    <?php
-                        // Escolhe a classe CSS conforme a situação do aluno
-                        if ($aluno['situacao'] === 'Aprovado') {
-                            $classeSituacao = 'status-aprovado';
-                        } elseif ($aluno['situacao'] === 'Recuperação') {
-                            $classeSituacao = 'status-recuperacao';
-                        } else {
-                            $classeSituacao = 'status-reprovado';
-                        }
-                    ?>
                     <tr>
                         <td><?= htmlspecialchars($aluno['nome']) ?></td>
                         <td><?= number_format($aluno['nota1'], 2, ',', '.') ?></td>
@@ -134,7 +124,7 @@
                         <td><?= number_format($aluno['media'], 2, ',', '.') ?></td>
                         <td><?= number_format($aluno['raiz'], 2, ',', '.') ?></td>
                         <td><?= number_format($aluno['difAbs'], 2, ',', '.') ?></td>
-                        <td class="<?= $classeSituacao ?>"><?= htmlspecialchars($aluno['situacao']) ?></td>
+                        <td><?= htmlspecialchars($aluno['situacao']) ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
