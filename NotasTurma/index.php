@@ -6,259 +6,158 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Análise Estatística de Turma Escolar</h1>
 
-<div class="container">
+        <?php
+        // Processa os dados somente quando o formulário é enviado
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $turma = trim($_POST['turma'] ?? '');
+            $qtdAlunos = intval($_POST['qtd_alunos'] ?? 0);
 
-    <h1>Análise Estatística de Turma Escolar</h1>
+            $alunos = [];
+            $somaNotasTotal = 0;
+            $totalAprovados = 0;
+            $totalRecuperacao = 0;
+            $totalReprovado = 0;
+            $maiorMedia = 0;
+            $menorMedia = PHP_INT_MAX;
 
-    <?php
+            // Percorre todos os alunos informados no formulário
+            for ($i = 0; $i < $qtdAlunos; $i++) {
+                $nome = trim($_POST["nome_$i"] ?? '');
+                $nota1 = floatval($_POST["nota1_$i"] ?? 0);
+                $nota2 = floatval($_POST["nota2_$i"] ?? 0);
+                $trabalho = floatval($_POST["trabalho_$i"] ?? 0);
 
-    /*
-        Recebe os dados informados no formulário.
-    */
-    $turma = $_POST['turma'] ?? '';
-    $qtdAlunos = intval($_POST['qtd_alunos'] ?? 0);
+                if ($nome === '') {
+                    $nome = "Aluno " . ($i + 1);
+                }
 
-    /*
-        Processamento dos resultados
-        Após o envio das notas, o sistema percorre todos os alunos, realiza os cálculos individuais e gera o relatório final.
-    */
-    if (isset($_POST['processar'])) {
+                // Realiza os cálculos individuais do aluno
+                $media = ($nota1 + $nota2 + $trabalho) / 3;
+                $raizQuadrada = sqrt($nota1 + $nota2 + $trabalho);
+                $difAbsoluta = abs(max($nota1, $nota2, $trabalho) - min($nota1, $nota2, $trabalho));
 
-        $alunos = [];
-        $somaNotasTotal = 0;
-        $totalAprovados = 0;
-        $totalRecuperacao = 0;
-        $totalReprovado = 0;
-        $maiorMedia = 0;
-        $menorMedia = PHP_INT_MAX;
+                // Define a situação acadêmica pela média
+                if ($media >= 7.0) {
+                    $situacao = 'Aprovado';
+                    $totalAprovados++;
+                } elseif ($media >= 5.0) {
+                    $situacao = 'Recuperação';
+                    $totalRecuperacao++;
+                } else {
+                    $situacao = 'Reprovado';
+                    $totalReprovado++;
+                }
 
-        /*
-            Processamento dos alunos
-            O laço percorre todos os alunos cadastrados e calcula média, situação, raiz quadrada e diferença absoluta.
-        */
-        for ($i = 0; $i < $qtdAlunos; $i++) {
+                $alunos[] = [
+                    'nome' => $nome,
+                    'nota1' => $nota1,
+                    'nota2' => $nota2,
+                    'trabalho' => $trabalho,
+                    'media' => $media,
+                    'raiz' => $raizQuadrada,
+                    'difAbs' => $difAbsoluta,
+                    'situacao' => $situacao
+                ];
 
-            $nome = trim($_POST["nome_$i"] ?? '');
-            $nota1 = floatval($_POST["nota1_$i"] ?? 0);
-            $nota2 = floatval($_POST["nota2_$i"] ?? 0);
-            $trabalho = floatval($_POST["trabalho_$i"] ?? 0);
+                // Atualiza os dados gerais da turma
+                $somaNotasTotal += $nota1 + $nota2 + $trabalho;
 
-            if ($nome == '') {
-                $nome = "Aluno " . ($i + 1);
+                if ($media > $maiorMedia) {
+                    $maiorMedia = $media;
+                }
+
+                if ($media < $menorMedia) {
+                    $menorMedia = $media;
+                }
             }
 
-            $media = ($nota1 + $nota2 + $trabalho) / 3;
-            $raizQuadrada = sqrt($nota1 + $nota2 + $trabalho);
-            $difAbsoluta = abs(max($nota1, $nota2, $trabalho) - min($nota1, $nota2, $trabalho));
-
-            if ($media >= 7) {
-                $situacao = "Aprovado";
-                $totalAprovados++;
-            } elseif ($media >= 5) {
-                $situacao = "Recuperação";
-                $totalRecuperacao++;
-            } else {
-                $situacao = "Reprovado";
-                $totalReprovado++;
-            }
-
-            /*
-                Armazenamento dos dados
-                Guarda todas as informações calculadas para exibição posterior na tabela de resultados.
-            */
-            $alunos[] = [
-                'nome' => $nome,
-                'nota1' => $nota1,
-                'nota2' => $nota2,
-                'trabalho' => $trabalho,
-                'media' => $media,
-                'raiz' => $raizQuadrada,
-                'difAbs' => $difAbsoluta,
-                'situacao' => $situacao
-            ];
-
-            $somaNotasTotal += $nota1 + $nota2 + $trabalho;
-
-            if ($media > $maiorMedia) {
-                $maiorMedia = $media;
-            }
-
-            if ($media < $menorMedia) {
-                $menorMedia = $media;
-            }
+            // Calcula os resultados finais da turma
+            $mediaGeral = $qtdAlunos > 0 ? ($somaNotasTotal / (3 * $qtdAlunos)) : 0;
+            $percentualAprovado = $qtdAlunos > 0 ? ($totalAprovados / $qtdAlunos) * 100 : 0;
         }
+        ?>
 
-        /*
-            Estatísticas da turma
-            Calcula os indicadores gerais utilizados no relatório.
-        */
-        $mediaGeral = $somaNotasTotal / ($qtdAlunos * 3);
-        $percentualAprovado = ($totalAprovados / $qtdAlunos) * 100;
-    }
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="turma">Nome da Turma:</label>
+                <input type="text" id="turma" name="turma" value="<?= htmlspecialchars($turma ?? '') ?>" required>
+            </div>
 
-    ?>
+            <div class="form-group">
+                <label for="qtd_alunos">Quantidade de Alunos:</label>
+                <input type="number" id="qtd_alunos" name="qtd_alunos" min="1" value="<?= htmlspecialchars($qtdAlunos ?? '') ?>" required>
+            </div>
 
-    <form method="POST">
+            <div id="alunos-container"></div>
 
-        <div class="form-group">
-            <label>Nome da Turma:</label>
-            <input type="text" name="turma"
-                   value="<?= htmlspecialchars($turma) ?>"
-                   required>
-        </div>
+            <button type="submit">Processar Resultados</button>
+        </form>
 
-        <div class="form-group">
-            <label>Quantidade de Alunos:</label>
-            <input type="number" name="qtd_alunos"
-                   min="1"
-                   value="<?= $qtdAlunos ?>"
-                   required>
-        </div>
-
-        <?php if (isset($_POST['gerar'])): ?>
-
-            <?php for ($i = 0; $i < $qtdAlunos; $i++): ?>
-
-                <div class="estudante">
-
-                    <h3>Aluno <?= $i + 1 ?></h3>
-
-                    <div class="form-group">
-                        <label>Nome:</label>
-                        <input type="text" name="nome_<?= $i ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nota da Prova 1:</label>
-                        <input type="number"
-                               name="nota1_<?= $i ?>"
-                               min="0"
-                               max="10"
-                               step="0.01"
-                               required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nota da Prova 2:</label>
-                        <input type="number"
-                               name="nota2_<?= $i ?>"
-                               min="0"
-                               max="10"
-                               step="0.01"
-                               required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nota do Trabalho:</label>
-                        <input type="number"
-                               name="trabalho_<?= $i ?>"
-                               min="0"
-                               max="10"
-                               step="0.01"
-                               required>
-                    </div>
-
-                </div>
-
-            <?php endfor; ?>
-
-            <button type="submit" name="processar">
-                Processar Resultados
-            </button>
-
-        <?php else: ?>
-
-            <button type="submit" name="gerar">
-                Gerar Campos
-            </button>
-
-        <?php endif; ?>
-
-    </form>
-
-    <?php if (isset($_POST['processar'])): ?>
-
+        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($alunos)): ?>
         <div class="results">
-
             <h2>Resultado da Turma: <?= htmlspecialchars($turma) ?></h2>
 
             <h3>Tabela de Alunos</h3>
-
             <table class="results-table">
-
                 <thead>
-                <tr>
-                    <th>Aluno</th>
-                    <th>Nota 1</th>
-                    <th>Nota 2</th>
-                    <th>Trabalho</th>
-                    <th>Média</th>
-                    <th>Raiz √(soma)</th>
-                    <th>|Maior-Menor|</th>
-                    <th>Situação</th>
-                </tr>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Nota 1</th>
+                        <th>Nota 2</th>
+                        <th>Trabalho</th>
+                        <th>Média</th>
+                        <th>Raiz √(soma)</th>
+                        <th>|Maior-Menor|</th>
+                        <th>Situação</th>
+                    </tr>
                 </thead>
-
                 <tbody>
-
-                <?php foreach ($alunos as $aluno): ?>
-
+                    <?php foreach ($alunos as $aluno): ?>
                     <tr>
                         <td><?= htmlspecialchars($aluno['nome']) ?></td>
-                        <td><?= number_format($aluno['nota1'],2,',','.') ?></td>
-                        <td><?= number_format($aluno['nota2'],2,',','.') ?></td>
-                        <td><?= number_format($aluno['trabalho'],2,',','.') ?></td>
-                        <td><?= number_format($aluno['media'],2,',','.') ?></td>
-                        <td><?= number_format($aluno['raiz'],2,',','.') ?></td>
-                        <td><?= number_format($aluno['difAbs'],2,',','.') ?></td>
-                        <td><?= $aluno['situacao'] ?></td>
+                        <td><?= number_format($aluno['nota1'], 2, ',', '.') ?></td>
+                        <td><?= number_format($aluno['nota2'], 2, ',', '.') ?></td>
+                        <td><?= number_format($aluno['trabalho'], 2, ',', '.') ?></td>
+                        <td><?= number_format($aluno['media'], 2, ',', '.') ?></td>
+                        <td><?= number_format($aluno['raiz'], 2, ',', '.') ?></td>
+                        <td><?= number_format($aluno['difAbs'], 2, ',', '.') ?></td>
+                        <td><?= htmlspecialchars($aluno['situacao']) ?></td>
                     </tr>
-
-                <?php endforeach; ?>
-
+                    <?php endforeach; ?>
                 </tbody>
-
             </table>
 
             <h3>Relatório Estatístico da Turma</h3>
-
             <ul class="stats">
-                <li><strong>Média Geral:</strong> <?= number_format($mediaGeral,2,',','.') ?></li>
-                <li><strong>Maior Média:</strong> <?= number_format($maiorMedia,2,',','.') ?></li>
-                <li><strong>Menor Média:</strong> <?= number_format($menorMedia,2,',','.') ?></li>
-                <li><strong>Aprovados:</strong> <?= $totalAprovados ?></li>
-                <li><strong>Recuperação:</strong> <?= $totalRecuperacao ?></li>
-                <li><strong>Reprovados:</strong> <?= $totalReprovado ?></li>
-                <li><strong>Percentual de Aprovação:</strong> <?= number_format($percentualAprovado,2,',','.') ?>%</li>
-                <li><strong>Soma Total das Notas:</strong> <?= number_format($somaNotasTotal,2,',','.') ?></li>
+                <li><strong>Média Geral da Turma:</strong> <?= number_format($mediaGeral, 2, ',', '.') ?></li>
+                <li><strong>Maior Média:</strong> <?= number_format($maiorMedia, 2, ',', '.') ?></li>
+                <li><strong>Menor Média:</strong> <?= number_format($menorMedia, 2, ',', '.') ?></li>
+                <li><strong>Quantidade de Aprovados:</strong> <?= $totalAprovados ?></li>
+                <li><strong>Quantidade de Recuperação:</strong> <?= $totalRecuperacao ?></li>
+                <li><strong>Quantidade de Reprovados:</strong> <?= $totalReprovado ?></li>
+                <li><strong>Percentual de Aprovação:</strong> <?= number_format($percentualAprovado, 2, ',', '.') ?>%</li>
+                <li><strong>Soma Total de Todas as Notas:</strong> <?= number_format($somaNotasTotal, 2, ',', '.') ?></li>
             </ul>
 
             <div class="message">
-
                 <?php
-
-                /*
-                    Mensagem de desempenho
-                    Exibe uma avaliação geral baseada no percentual de aprovação obtido pela turma.
-                */
+                // Mostra uma mensagem automática sobre o desempenho da turma
                 if ($percentualAprovado >= 70) {
-                    echo "<p>Desempenho geral da turma: EXCELENTE.</p>";
+                    echo "<p>Desempenho geral da turma: EXCELENTE. A maioria dos alunos foi aprovada.</p>";
                 } elseif ($percentualAprovado >= 50) {
-                    echo "<p>Desempenho geral da turma: SATISFATÓRIO.</p>";
+                    echo "<p>Desempenho geral da turma: SATISFATÓRIO. Metade ou mais dos alunos foi aprovada.</p>";
                 } else {
-                    echo "<p>Desempenho geral da turma: PREOCUPANTE.</p>";
+                    echo "<p>Desempenho geral da turma: PREOCUPANTE. Menos da metade dos alunos foi aprovada. Recomenda-se revisão de conteúdo.</p>";
                 }
-
                 ?>
-
             </div>
-
         </div>
+        <?php endif; ?>
+    </div>
 
-    <?php endif; ?>
-
-</div>
-
+    <script src="script.js"></script>
 </body>
 </html>
