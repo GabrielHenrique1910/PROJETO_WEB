@@ -1,4 +1,5 @@
 <?php
+include '../includes/auth.php';
 include '../includes/conexao.php';
 
 // Busca os países para o select
@@ -47,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="../paises/listar.php">Países</a></li>
                 <li><a href="listar.php" class="ativo">Cidades</a></li>
                 <li><a href="../governantes/listar.php">Governantes</a></li>
+                <!-- Botão de Sair com ../ adicionado abaixo -->
+                <li><a href="../logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
         </div>
     </nav>

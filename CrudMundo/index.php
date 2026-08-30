@@ -1,3 +1,5 @@
+<?php include 'includes/auth.php'; ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,6 +25,8 @@
                 <li><a href="paises/listar.php">Países</a></li>
                 <li><a href="cidades/listar.php">Cidades</a></li>
                 <li><a href="governantes/listar.php">Governantes</a></li>
+                <!-- Botão de Sair adicionado abaixo -->
+                <li><a href="logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
         </div>
     </nav>

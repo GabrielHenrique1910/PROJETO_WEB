@@ -1,4 +1,5 @@
 <?php
+include '../includes/auth.php';
 include '../includes/conexao.php';
 
 // Pega o ID passado pelo JavaScript

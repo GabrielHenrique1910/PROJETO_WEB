@@ -1,4 +1,5 @@
 <?php
+include '../includes/auth.php';
 include '../includes/conexao.php';
 
 // Faz a junção das tabelas para pegar os nomes
@@ -33,6 +34,8 @@ include '../includes/conexao.php';
                 <li><a href="listar.php" class="ativo">Países</a></li>
                 <li><a href="../cidades/listar.php">Cidades</a></li>
                 <li><a href="../governantes/listar.php">Governantes</a></li>
+                <!-- Botão de Sair com ../ adicionado abaixo -->
+                <li><a href="../logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
         </div>
     </nav>
