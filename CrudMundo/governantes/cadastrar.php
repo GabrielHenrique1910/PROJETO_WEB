@@ -49,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <!-- Botão de Mudar Senha -->
                 <li><a href="../alterar_senha.php">Mudar Senha</a></li>
                 
-
                 <!-- Botão de Sair com ../ adicionado abaixo -->
                 <li><a href="../logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
