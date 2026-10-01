@@ -1,97 +1,72 @@
-<div align="center">
+# CRUD Mundo
 
-# 🌍 CRUD Mundo
+Sistema web para gerenciamento de dados geográficos mundiais: continentes, países, cidades e governantes, com autenticação de usuários e registro de logs.
 
-**Sistema web para gerenciamento de dados geográficos mundiais**
-
-[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)]()
-[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)]()
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)]()
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)]()
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)]()
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)]()
-
-</div>
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 
 ---
 
-## 📖 Sobre o projeto
+## Sobre o projeto
 
-O CRUD Mundo é uma aplicação web destinada ao gerenciamento de dados geográficos mundiais, permitindo o cadastro, a consulta, a atualização e a exclusão de **continentes**, **países**, **cidades** e **governantes**.
+O CRUD Mundo é uma aplicação web destinada ao gerenciamento de dados geográficos mundiais. Através dela é possível cadastrar, consultar, atualizar e excluir continentes, países, cidades e governantes.
 
-O sistema conta com autenticação de usuários, bloqueio de conta após tentativas inválidas de login, troca obrigatória de senha no primeiro acesso e registro de logs com data, hora e IP de origem.
+O acesso é restrito a usuários autenticados. O sistema controla tentativas de login inválidas (bloqueando a conta após três erros), exige a troca de senha no primeiro acesso e registra as ações principais em logs, com data, hora e IP de origem.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-- 🔐 Login e logout de usuários
-- 🚫 Bloqueio de conta após 3 tentativas de senha incorretas
-- 🔑 Troca obrigatória de senha no primeiro acesso
-- 👤 Alteração voluntária de senha com validação da senha atual
-- 🌐 CRUD completo de continentes
-- 🏳️ CRUD completo de países
-- 🏙️ CRUD completo de cidades
-- 👑 CRUD completo de governantes
-- 📋 Registro de logs de ações do usuário
+- Autenticação de usuários (login e logout)
+- Bloqueio automático de conta após 3 tentativas de senha incorretas
+- Troca obrigatória de senha no primeiro acesso
+- Alteração de senha pelo próprio usuário, com confirmação da senha atual
+- CRUD completo de continentes, países, cidades e governantes
+- Registro de logs das ações realizadas no sistema
 
-## 🗄️ Modelo do banco de dados
+## Tecnologias utilizadas
 
-```mermaid
-erDiagram
-    continentes ||--o{ paises : possui
-    governantes ||--o{ paises : governa
-    paises ||--o{ cidades : contem
-    usuarios ||--o{ logs : gera
+- PHP
+- MySQL
+- HTML / CSS
+- JavaScript
+- Git e GitHub
+
+## Estrutura do projeto
+
+```text
+CrudMundo/
+├── index.php              # Página inicial
+├── login.php              # Autenticação
+├── logout.php             # Encerramento da sessão
+├── trocar_senha.php       # Troca obrigatória no primeiro acesso
+├── alterar_senha.php      # Alteração voluntária de senha
+├── .env.example           # Modelo das variáveis de ambiente
+├── continentes/           # CRUD de continentes
+├── paises/                # CRUD de países
+├── cidades/               # CRUD de cidades
+├── governantes/           # CRUD de governantes
+├── css/                   # Folhas de estilo
+├── js/                    # Scripts
+├── includes/              # Conexão com o banco e autenticação
+└── database/              # Script SQL do banco de dados
 ```
 
-## 🛠️ Tecnologias utilizadas
+## Como executar
 
-- PHP
-- MySQL
-- HTML
-- CSS
-- JavaScript
-- Git / GitHub
+**Requisitos:** PHP, MySQL e um servidor local como XAMPP ou WampServer.
 
-## 📁 Estrutura do projeto
-
-| Pasta / Arquivo | Descrição |
-|---|---|
-| `index.php` | Página inicial do sistema |
-| `login.php` / `logout.php` | Autenticação do usuário |
-| `trocar_senha.php` | Troca obrigatória de senha no primeiro acesso |
-| `alterar_senha.php` | Alteração voluntária de senha |
-| `continentes/` | CRUD de continentes |
-| `paises/` | CRUD de países |
-| `cidades/` | CRUD de cidades |
-| `governantes/` | CRUD de governantes |
-| `css/` | Folhas de estilo |
-| `js/` | Scripts JavaScript |
-| `includes/` | Autenticação e conexão com o banco |
-| `database/` | Script SQL do banco de dados |
-| `.env.example` | Modelo das variáveis de ambiente |
-
-## ⚙️ Requisitos
-
-- PHP
-- MySQL
-- Servidor local (XAMPP, WampServer ou similar)
-- Navegador
-
-## 🚀 Como executar
-
-1. Clone o repositório ou baixe o ZIP
-2. Copie a pasta `CrudMundo` para a pasta do servidor local (ex.: `htdocs` no XAMPP)
-3. Crie o arquivo `.env` na raiz do projeto com base no `.env.example`
-4. Inicie os serviços Apache e MySQL
-5. Importe o arquivo `database/bd_mundo.sql` pelo phpMyAdmin
+1. Baixe ou clone o repositório
+2. Copie a pasta `CrudMundo` para a pasta do servidor local (`htdocs`, no caso do XAMPP)
+3. Importe o arquivo `database/bd_mundo.sql` pelo phpMyAdmin
+4. Crie o arquivo `.env` na raiz do projeto com base no `.env.example`
+5. Inicie os serviços Apache e MySQL
 6. Acesse `http://localhost/CrudMundo` no navegador
 
----
+> **Nota:** o arquivo `.env` não é versionado, pois contém os dados de conexão
+> com o banco. Cada ambiente de execução deve ter o seu próprio.
 
-<div align="center">
+## Autor
 
-**👤 Autor**
-
-Gabriel Henrique da Silva — Desenvolvimento de Sistemas | ETEC Profª Ilza Nascimento Pintus
-
-</div>
+Desenvolvido por **Gabriel Henrique da Silva** — Desenvolvimento de Sistemas, ETEC Profº Ilza Nascimento Pintus.
