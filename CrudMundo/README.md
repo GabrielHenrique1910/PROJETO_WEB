@@ -92,6 +92,6 @@ erDiagram
 
 **👤 Autor**
 
-Seu Nome Completo — Desenvolvimento de Sistemas | ETEC ETECOS
+Gabriel Henrique da Silva — Desenvolvimento de Sistemas | ETEC Profª Ilza Nascimento Pintus
 
 </div>
