@@ -33,6 +33,72 @@ O acesso é restrito a usuários autenticados. O sistema controla tentativas de 
 - JavaScript
 - Git e GitHub
 
+## Modelo do banco de dados
+
+O banco de dados é composto por seis tabelas, relacionadas conforme o diagrama abaixo:
+
+```mermaid
+erDiagram
+    continentes {
+        int id_continente PK
+        varchar nome
+        bigint populacao
+        decimal area
+        int total_paises
+    }
+    governantes {
+        int id_governante PK
+        varchar nome
+        varchar partido_politico
+        date data_nascimento
+        int idade
+        date data_inicio_mandato
+        date data_fim_mandato
+    }
+    paises {
+        int id_pais PK
+        int id_continente FK
+        int id_governante FK
+        varchar nome
+        bigint populacao
+        decimal area
+        varchar idioma
+        varchar clima
+        varchar regime_politico
+        varchar moeda
+    }
+    cidades {
+        int id_cidade PK
+        int id_pais FK
+        varchar nome
+        bigint populacao
+        decimal area
+        varchar clima
+        date data_fundacao
+    }
+    usuarios {
+        int id PK
+        varchar nome
+        varchar email
+        varchar senha
+        int tentativas_invalidas
+        tinyint bloqueado
+        tinyint primeiro_acesso
+    }
+    logs {
+        int id PK
+        int usuario_id FK
+        varchar acao
+        varchar ip_origem
+        timestamp data_hora
+    }
+
+    continentes ||--o{ paises : "possui"
+    governantes ||--o{ paises : "governa"
+    paises ||--o{ cidades : "contem"
+    usuarios ||--o{ logs : "gera"
+```
+
 ## Estrutura do projeto
 
 ```text
@@ -69,4 +135,4 @@ CrudMundo/
 
 ## Autor
 
-Desenvolvido por **Gabriel Henrique da Silva** — Desenvolvimento de Sistemas, ETEC Profº Ilza Nascimento Pintus.
+Desenvolvido por **Seu Nome Completo** — Desenvolvimento de Sistemas, ETEC ETECOS.
