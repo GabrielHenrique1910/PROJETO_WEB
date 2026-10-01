@@ -135,4 +135,4 @@ CrudMundo/
 
 ## Autor
 
-Desenvolvido por **Seu Nome Completo** — Desenvolvimento de Sistemas, ETEC ETECOS.
+Desenvolvido por **Gabriel Henrique da Silva** — Desenvolvimento de Sistemas, ETEC Profº Ilxa Nascimento Pinntus.
