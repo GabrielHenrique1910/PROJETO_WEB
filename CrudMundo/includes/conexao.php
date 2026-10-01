@@ -1,12 +1,18 @@
 <?php
-// Define os parâmetros de conexão com o banco de dados
- $servidor = "localhost";
- $usuario = "root"; // Usuário padrão do XAMPP
- $senha = "";       // Senha padrão do XAMPP (vazia)
- $banco = "bd_mundo";
+// Carrega as variáveis de ambiente do arquivo .env (não versionado)
+$env = parse_ini_file(__DIR__ . '/../.env');
+
+if ($env === false) {
+    die("Arquivo .env não encontrado. Copie o .env.example para .env e configure a conexão.");
+}
+
+$servidor = $env['DB_HOST'];
+$usuario  = $env['DB_USER'];
+$senha    = $env['DB_PASS'];
+$banco    = $env['DB_NAME'];
 
 // Cria a conexão usando mysqli
- $conexao = mysqli_connect($servidor, $usuario, $senha, $banco);
+$conexao = mysqli_connect($servidor, $usuario, $senha, $banco);
 
 // Verifica se houve erro na conexão
 if (!$conexao) {
