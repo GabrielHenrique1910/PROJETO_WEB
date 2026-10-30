@@ -1,140 +1,154 @@
 # CRUD Mundo
 
-Sistema web para gerenciamento de dados geográficos mundiais: continentes, países, cidades e governantes, com autenticação de usuários e registro de logs.
-
-![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-
----
+Aplicação web para gerenciamento de informações geográficas. Permite administrar continentes, países, cidades e governantes, além de exibir no Google Maps a localização da Etec Prof. Ilza Nascimento Pintus.
 
 ## Sobre o projeto
 
-O CRUD Mundo é uma aplicação web destinada ao gerenciamento de dados geográficos mundiais. Através dela é possível cadastrar, consultar, atualizar e excluir continentes, países, cidades e governantes.
+O CRUD Mundo foi desenvolvido como uma aplicação web com interface em HTML, CSS e JavaScript, processamento em PHP e armazenamento de dados em MySQL.
 
-O acesso é restrito a usuários autenticados. O sistema controla tentativas de login inválidas (bloqueando a conta após três erros), exige a troca de senha no primeiro acesso e registra as ações principais em logs, com data, hora e IP de origem.
+O sistema reúne operações de cadastro, consulta, edição e exclusão de registros. Também possui autenticação de usuários, controle de tentativas de login, troca de senha e registro de ações em logs.
 
 ## Funcionalidades
 
-- Autenticação de usuários (login e logout)
-- Bloqueio automático de conta após 3 tentativas de senha incorretas
-- Troca obrigatória de senha no primeiro acesso
-- Alteração de senha pelo próprio usuário, com confirmação da senha atual
-- CRUD completo de continentes, países, cidades e governantes
-- Registro de logs das ações realizadas no sistema
-- Visualização da localização da ETEC Prof. Ilza Nascimento Pintus em mapa interativo do Google Maps
+- Login e logout de usuários.
+- Bloqueio da conta após três tentativas de senha incorretas.
+- Troca obrigatória da senha no primeiro acesso.
+- Alteração de senha com confirmação da senha atual.
+- Cadastro, listagem, edição e exclusão de continentes.
+- Cadastro, listagem, edição e exclusão de países.
+- Cadastro, listagem, edição e exclusão de cidades associadas a países.
+- Cadastro, listagem, edição e exclusão de governantes associados a países.
+- Registro de ações de autenticação e alteração de senha em logs.
+- Visualização interativa da localização da Etec Prof. Ilza Nascimento Pintus usando a Google Maps JavaScript API.
 
 ## Tecnologias utilizadas
 
 - PHP
 - MySQL
-- HTML / CSS
+- HTML5
+- CSS3
 - JavaScript
+- Google Maps JavaScript API
 - Git e GitHub
 
-## Modelo do banco de dados
+## Requisitos
 
-O banco de dados é composto por seis tabelas, relacionadas conforme o diagrama abaixo:
-
-```mermaid
-erDiagram
-    continentes {
-        int id_continente PK
-        varchar nome
-        bigint populacao
-        decimal area
-        int total_paises
-    }
-    governantes {
-        int id_governante PK
-        varchar nome
-        varchar partido_politico
-        date data_nascimento
-        int idade
-        date data_inicio_mandato
-        date data_fim_mandato
-    }
-    paises {
-        int id_pais PK
-        int id_continente FK
-        int id_governante FK
-        varchar nome
-        bigint populacao
-        decimal area
-        varchar idioma
-        varchar clima
-        varchar regime_politico
-        varchar moeda
-    }
-    cidades {
-        int id_cidade PK
-        int id_pais FK
-        varchar nome
-        bigint populacao
-        decimal area
-        varchar clima
-        date data_fundacao
-    }
-    usuarios {
-        int id PK
-        varchar nome
-        varchar email
-        varchar senha
-        int tentativas_invalidas
-        tinyint bloqueado
-        tinyint primeiro_acesso
-    }
-    logs {
-        int id PK
-        int usuario_id FK
-        varchar acao
-        varchar ip_origem
-        timestamp data_hora
-    }
-
-    continentes ||--o{ paises : "possui"
-    governantes ||--o{ paises : "governa"
-    paises ||--o{ cidades : "contem"
-    usuarios ||--o{ logs : "gera"
-```
+- PHP com a extensão MySQLi habilitada.
+- MySQL ou MariaDB.
+- Servidor web local, como XAMPP ou WampServer.
+- Navegador com acesso à internet para carregar o Google Maps.
+- Projeto e chave da Google Maps JavaScript API configurados no Google Cloud.
 
 ## Estrutura do projeto
 
 ```text
 CrudMundo/
-├── index.php              # Página inicial
-├── login.php              # Autenticação
-├── logout.php             # Encerramento da sessão
-├── trocar_senha.php       # Troca obrigatória no primeiro acesso
-├── alterar_senha.php      # Alteração voluntária de senha
-├── .env.example           # Modelo das variáveis de ambiente
-├── continentes/           # CRUD de continentes
-├── paises/                # CRUD de países
-├── cidades/               # CRUD de cidades
-├── governantes/           # CRUD de governantes
-├── css/                   # Folhas de estilo
-├── js/                    # Scripts
-├── includes/              # Conexão com o banco e autenticação
-└── database/              # Script SQL do banco de dados
+├── cidades/                 # Cadastro, listagem, edição e exclusão de cidades
+├── config/
+│   └── google_maps.php      # Carrega a chave do Google Maps do arquivo .env
+├── continentes/             # CRUD de continentes
+├── css/
+│   ├── mapa.css             # Estilos específicos da página do mapa
+│   └── style.css            # Estilos gerais
+├── database/
+│   └── bd_mundo.sql         # Criação e dados iniciais do banco
+├── governantes/             # CRUD de governantes
+├── includes/
+│   ├── auth.php             # Verificação de autenticação
+│   └── conexao.php          # Conexão com o banco de dados
+├── js/
+│   └── script.js            # Interações JavaScript
+├── paises/                  # CRUD de países
+├── .env.example             # Modelo das variáveis de ambiente
+├── .gitignore               # Arquivos que não devem ser enviados ao Git
+├── alterar_senha.php        # Alteração de senha
+├── index.php                # Página inicial
+├── login.php                # Autenticação
+├── logout.php               # Encerramento da sessão
+├── mapa.php                 # Mapa da localização da ETEC
+└── trocar_senha.php         # Troca de senha no primeiro acesso
 ```
 
-## Como executar
+## Banco de dados
 
-**Requisitos:** PHP, MySQL e um servidor local como XAMPP ou WampServer.
+O script `database/bd_mundo.sql` cria o banco `bd_mundo` e suas tabelas:
 
-1. Baixe ou clone o repositório
-2. Copie a pasta `CrudMundo` para a pasta do servidor local (`htdocs`, no caso do XAMPP)
-3. Importe o arquivo `database/bd_mundo.sql` pelo phpMyAdmin
-4. Crie o arquivo `.env` na raiz do projeto com base no `.env.example`
-5. Inicie os serviços Apache e MySQL
-6. Acesse `http://localhost/CrudMundo` no navegador
-7. Adicione `GOOGLE_MAPS_API_KEY` ao arquivo `.env` com a chave da Maps JavaScript API
+- `continentes`
+- `paises`
+- `cidades`
+- `governantes`
+- `usuarios`
+- `logs`
 
-> **Nota:** o arquivo `.env` não é versionado, pois contém os dados de conexão
-> com o banco. Cada ambiente de execução deve ter o seu próprio.
+Os países estão relacionados a continentes e governantes. As cidades estão relacionadas a países. Os logs podem estar associados a um usuário.
+
+## Como executar localmente
+
+### 1. Instale e inicie o ambiente
+
+Instale o XAMPP ou outro ambiente que ofereça PHP e MySQL. Inicie os serviços **Apache** e **MySQL**.
+
+### 2. Coloque o projeto na pasta do servidor
+
+No XAMPP, copie a pasta `CrudMundo` para:
+
+```text
+C:\xampp\htdocs\CrudMundo
+```
+
+### 3. Crie o banco de dados
+
+1. Acesse `http://localhost/phpmyadmin`.
+2. Importe o arquivo `CrudMundo/database/bd_mundo.sql`.
+
+O script cria o banco de dados `bd_mundo`.
+
+### 4. Configure as variáveis de ambiente
+
+Na pasta `CrudMundo`, faça uma cópia de `.env.example` e nomeie a cópia `.env`. O arquivo `.env` deve ficar na raiz de `CrudMundo`, ao lado de `.env.example`.
+
+Preencha as configurações do banco de dados conforme o seu ambiente e substitua o valor de exemplo da chave:
+
+```ini
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=bd_mundo
+GOOGLE_MAPS_API_KEY=SUA_CHAVE_API
+```
+
+O arquivo `.env` é local e não deve ser enviado ao GitHub. O arquivo `.env.example` contém apenas valores de exemplo.
+
+### 5. Configure o Google Maps
+
+1. No Google Cloud Console, selecione ou crie um projeto.
+2. Ative a **Maps JavaScript API**.
+3. Crie uma chave de API.
+4. Configure as restrições da chave para permitir somente a API necessária e os endereços usados para testar, como `http://localhost/*`.
+5. Coloque a chave no campo `GOOGLE_MAPS_API_KEY` do arquivo `.env`.
+
+A configuração de faturamento pode ser solicitada pelo Google Cloud. Verifique as condições da conta e as cotas aplicáveis. A chave usada pelo mapa fica visível no navegador; por isso, as restrições da chave são importantes.
+
+### 6. Acesse o sistema
+
+Abra:
+
+```text
+http://localhost/CrudMundo
+```
+
+Acesse o item **Mapa da ETEC** no menu para visualizar o mapa.
+
+O SQL inclui um usuário administrador inicial para o primeiro acesso. A senha inicial está indicada no próprio arquivo `database/bd_mundo.sql`; o sistema solicita sua alteração no primeiro login.
+
+## Segurança e configuração
+
+- Não envie o arquivo `.env` ao GitHub.
+- Não coloque uma chave real no `.env.example`.
+- Restrinja a chave do Google Maps no Google Cloud.
+- Cada ambiente de execução precisa configurar seu próprio `.env`.
+- A página do mapa utiliza coordenadas definidas no código para apontar para a sede da ETEC.
 
 ## Autor
 
-Desenvolvido por **Gabriel Henrique da Silva** — Desenvolvimento de Sistemas, ETEC Profº Ilxa Nascimento Pinntus.
+Desenvolvido por **Gabriel Henrique da Silva**, estudante do curso de Desenvolvimento de Sistemas da Etec Prof. Ilza Nascimento Pintus.
