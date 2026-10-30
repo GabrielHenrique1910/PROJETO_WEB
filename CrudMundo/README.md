@@ -24,6 +24,7 @@ O acesso é restrito a usuários autenticados. O sistema controla tentativas de 
 - Alteração de senha pelo próprio usuário, com confirmação da senha atual
 - CRUD completo de continentes, países, cidades e governantes
 - Registro de logs das ações realizadas no sistema
+- Visualização da localização da ETEC Prof. Ilza Nascimento Pintus em mapa interativo do Google Maps
 
 ## Tecnologias utilizadas
 
@@ -129,6 +130,7 @@ CrudMundo/
 4. Crie o arquivo `.env` na raiz do projeto com base no `.env.example`
 5. Inicie os serviços Apache e MySQL
 6. Acesse `http://localhost/CrudMundo` no navegador
+7. Adicione `GOOGLE_MAPS_API_KEY` ao arquivo `.env` com a chave da Maps JavaScript API
 
 > **Nota:** o arquivo `.env` não é versionado, pois contém os dados de conexão
 > com o banco. Cada ambiente de execução deve ter o seu próprio.
