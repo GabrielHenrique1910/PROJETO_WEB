@@ -24,6 +24,7 @@
                 <li><a href="continentes/listar.php">Continentes</a></li>
                 <li><a href="paises/listar.php">Países</a></li>
                 <li><a href="cidades/listar.php">Cidades</a></li>
+                <li><a href="mapa.php">Mapa da ETEC</a></li>
                 <li><a href="governantes/listar.php">Governantes</a></li>
 
                  <!-- Botão de Mudar Senha adicionado -->
