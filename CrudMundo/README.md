@@ -107,3 +107,153 @@ CrudMundo/
 ├── .gitignore                        # Arquivos locais ignorados pelo Git
 ├── index.php                         # Página inicial
 └── mapa.php                          # Mapa da ETEC
+```
+
+## 🗄️ Modelo do banco de dados
+
+O banco `bd_mundo` possui seis tabelas. Os campos `codigo_iso`, `capital`, `regiao` e `sub_regiao` foram adicionados à tabela `paises` para armazenar os dados importados da API.
+
+```mermaid
+erDiagram
+    continentes {
+        int id_continente PK
+        varchar nome
+        bigint populacao
+        decimal area
+        int total_paises
+    }
+
+    governantes {
+        int id_governante PK
+        varchar nome
+        varchar partido_politico
+        date data_nascimento
+        int idade
+        date data_inicio_mandato
+        date data_fim_mandato
+    }
+
+    paises {
+        int id_pais PK
+        int id_continente FK
+        int id_governante FK
+        varchar nome
+        char codigo_iso UK
+        varchar capital
+        bigint populacao
+        varchar regiao
+        varchar sub_regiao
+        decimal area
+        varchar idioma
+        varchar clima
+        varchar regime_politico
+        varchar moeda
+    }
+
+    cidades {
+        int id_cidade PK
+        int id_pais FK
+        varchar nome
+        bigint populacao
+        decimal area
+        varchar clima
+        date data_fundacao
+    }
+
+    usuarios {
+        int id PK
+        varchar nome
+        varchar email UK
+        varchar senha
+        int tentativas_invalidas
+        boolean bloqueado
+        boolean primeiro_acesso
+    }
+
+    logs {
+        int id PK
+        int usuario_id FK
+        varchar acao
+        varchar ip_origem
+        timestamp data_hora
+    }
+
+    continentes ||--o{ paises : "possui"
+    governantes ||--o{ paises : "governa"
+    paises ||--o{ cidades : "contém"
+    usuarios ||--o{ logs : "gera"
+```
+
+### Atualizar um banco já existente
+
+Se você **já tinha importado** o banco antes desta atividade, execute uma única vez `database/migracao_api_countries.sql` no phpMyAdmin. Se estiver criando o banco do zero, importe apenas `database/bd_mundo.sql`, que já inclui as colunas novas.
+
+## 🚀 Como executar
+
+### Requisitos
+
+- PHP **7.3 ou superior**, com as extensões **MySQLi**, **PDO MySQL**, **cURL** e **mbstring** habilitadas.
+- MySQL ou MariaDB.
+- Servidor local, como XAMPP ou WampServer.
+- Acesso à internet para consultar as APIs.
+
+### Instalação com XAMPP
+
+1. Baixe ou clone o repositório e copie a pasta `CrudMundo` para `C:\xampp\htdocs\CrudMundo`.
+2. No painel do XAMPP, inicie **Apache** e **MySQL**.
+3. Abra `http://localhost/phpmyadmin`.
+4. Para um banco novo, importe `CrudMundo/database/bd_mundo.sql`. Para um banco antigo, aplique apenas a migração descrita acima.
+5. Na pasta `CrudMundo`, copie `.env.example` para um arquivo chamado `.env`.
+6. Configure no `.env` os dados locais do MySQL e as chaves das APIs, conforme a seção abaixo.
+7. Acesse `http://localhost/CrudMundo`.
+
+## 🔌 Integrações com APIs
+
+### REST Countries API
+
+Na tela **Países**, escolha **Importar pela API REST Countries**, informe o nome comum do país e envie o formulário. O PHP consulta a API pelo endpoint `/countries/v5/names.common/{nome}`; em seguida, valida os dados recebidos e grava o país no banco.
+
+A API usa um token Bearer. A chave de demonstração `rc_live_demo` permite experimentar a estrutura da resposta, mas retorna um país de exemplo (atualmente, Canadá), que pode não corresponder ao nome pesquisado. Para importar dados do país solicitado, obtenha uma chave própria na [documentação da REST Countries](https://restcountries.com/docs/countries) e configure-a no `.env`.
+
+### Google Maps
+
+A página `mapa.php` carrega a Google Maps JavaScript API para mostrar a ETEC. Ative essa API no Google Cloud e configure a chave conforme a [documentação oficial de carregamento](https://developers.google.com/maps/documentation/javascript/load-maps-js-api).
+
+### Variáveis de ambiente
+
+Use o `.env.example` como modelo. Um `.env` local pode ficar assim:
+
+```ini
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=bd_mundo
+GOOGLE_MAPS_API_KEY=SUA_CHAVE_DO_GOOGLE_MAPS
+REST_COUNTRIES_API_KEY=rc_live_demo
+```
+
+Substitua os valores de acordo com o seu ambiente. O `.env` deve ficar na raiz de `CrudMundo`, junto ao `.env.example`; ele não deve ser enviado ao GitHub.
+
+> **Atenção ao Google Maps:** o Google Cloud pode exigir faturamento para ativar a Maps JavaScript API. Verifique as condições da sua conta. A chave do Maps é enviada ao navegador para carregar o mapa; restrinja-a à API e aos endereços necessários. Já o token da REST Countries é usado no servidor PHP, no cabeçalho da requisição cURL.
+
+## ✅ Testes manuais sugeridos
+
+| Cenário | Resultado esperado |
+|---|---|
+| Importar um país ainda não cadastrado | Dados validados e registro inserido |
+| Importar novamente o mesmo país | Mensagem de que o país já está cadastrado |
+| Informar um nome inexistente | Mensagem de país não encontrado, sem INSERT |
+| API indisponível ou chave recusada | Mensagem de erro, sem gravação no banco |
+| Abrir a listagem após importar | País aparece com código ISO, capital e região |
+
+## 🔐 Segurança
+
+- Não versione o arquivo `.env`; ele pode conter credenciais e configurações locais.
+- Mantenha apenas valores demonstrativos no `.env.example`.
+- Restrinja a chave do Google Maps no Google Cloud aos serviços e endereços necessários.
+- O token da REST Countries não é enviado ao navegador; o PHP o utiliza no servidor.
+- A importação valida os valores recebidos e usa consultas PDO preparadas para gravar no MySQL.
+
+## 👤 Autor
+
+Desenvolvido por **Gabriel Henrique da Silva**, estudante do curso de Desenvolvimento de Sistemas da **Etec Prof. Ilza Nascimento Pintus**, em São José dos Campos.
