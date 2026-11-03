@@ -27,12 +27,17 @@ CREATE TABLE paises (
     id_continente INT,
     id_governante INT,
     nome VARCHAR(100) NOT NULL,
+    codigo_iso CHAR(2) DEFAULT NULL,
+    capital VARCHAR(100) DEFAULT NULL,
+    regiao VARCHAR(100) DEFAULT NULL,
+    sub_regiao VARCHAR(100) DEFAULT NULL,
     populacao BIGINT,
     area DECIMAL(10,2),
     idioma VARCHAR(100),
     clima VARCHAR(100),
     regime_politico VARCHAR(100),
     moeda VARCHAR(50),
+    UNIQUE KEY uq_paises_codigo_iso (codigo_iso),
     FOREIGN KEY (id_continente) REFERENCES continentes(id_continente) ON DELETE SET NULL,
     FOREIGN KEY (id_governante) REFERENCES governantes(id_governante) ON DELETE SET NULL
 );
@@ -71,5 +76,5 @@ CREATE TABLE logs (
 );
 
 -- Insere o usuário Admin. A senha padrão é 123456 (já com hash criptografado bcrypt)
-INSERT INTO usuarios (nome, email, senha, primeiro_acesso) 
+INSERT INTO usuarios (nome, email, senha, primeiro_acesso)
 VALUES ('Administrador', 'admin@mundo.com', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1152aM4Dq./uR9yL5PqP017zW4c3L8y', 1);
