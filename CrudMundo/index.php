@@ -24,13 +24,9 @@
                 <li><a href="continentes/listar.php">Continentes</a></li>
                 <li><a href="paises/listar.php">Países</a></li>
                 <li><a href="cidades/listar.php">Cidades</a></li>
-                <li><a href="mapa.php">Mapa da ETEC</a></li>
                 <li><a href="governantes/listar.php">Governantes</a></li>
-
-                 <!-- Botão de Mudar Senha adicionado -->
+                <li><a href="mapa.php">Mapa da ETEC</a></li>
                 <li><a href="alterar_senha.php">Mudar Senha</a></li>
-                
-                <!-- Botão de Sair adicionado abaixo -->
                 <li><a href="logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
         </div>
@@ -40,7 +36,7 @@
         <section class="boas-vindas">
             <h2>Bem-vindo ao Sistema!</h2>
             <p>Use o menu acima para navegar entre as opções de gerenciamento. Você pode cadastrar, editar, listar e excluir registros de continentes, países, cidades e governantes.</p>
-            
+
             <div class="cards-info">
                 <div class="card">
                     <h3>🗺️ Continentes</h3>
