@@ -3,11 +3,11 @@ include '../includes/auth.php';
 include '../includes/conexao.php';
 
 // Faz a junção das tabelas para pegar os nomes
- $sql = "SELECT p.*, c.nome AS nome_continente, g.nome AS nome_governante 
+$sql = "SELECT p.*, c.nome AS nome_continente, g.nome AS nome_governante
         FROM paises p
         LEFT JOIN continentes c ON p.id_continente = c.id_continente
         LEFT JOIN governantes g ON p.id_governante = g.id_governante";
- $resultado = mysqli_query($conexao, $sql);
+$resultado = mysqli_query($conexao, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -34,11 +34,7 @@ include '../includes/conexao.php';
                 <li><a href="listar.php" class="ativo">Países</a></li>
                 <li><a href="../cidades/listar.php">Cidades</a></li>
                 <li><a href="../governantes/listar.php">Governantes</a></li>
-
-                <!-- Botão de Mudar Senha -->
                 <li><a href="../alterar_senha.php">Mudar Senha</a></li>
-                
-                <!-- Botão de Sair com ../ adicionado abaixo -->
                 <li><a href="../logout.php" style="background-color: #c0392b; color: white; border-radius: 5px;">Sair</a></li>
             </ul>
         </div>
@@ -47,42 +43,51 @@ include '../includes/conexao.php';
     <main class="container conteudo-principal">
         <h2>Lista de Países</h2>
         <a href="cadastrar.php" class="btn btn-success">+ Novo País</a>
+        <a href="importar.php" class="btn btn-primary">Importar pela API REST Countries</a>
 
         <?php if (isset($_GET['msg'])) { ?>
-            <div class="alert alert-success"><?php echo $_GET['msg']; ?></div>
+            <div class="alert alert-success"><?php echo htmlspecialchars($_GET['msg'], ENT_QUOTES, 'UTF-8'); ?></div>
         <?php } ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Continente</th>
-                    <th>Governante</th>
-                    <th>População</th>
-                    <th>Idioma</th>
-                    <th>Moeda</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($linha = mysqli_fetch_assoc($resultado)) { ?>
-                <tr>
-                    <td><?php echo $linha['id_pais']; ?></td>
-                    <td><?php echo $linha['nome']; ?></td>
-                    <td><?php echo $linha['nome_continente'] ?? 'Não definido'; ?></td>
-                    <td><?php echo $linha['nome_governante'] ?? 'Não definido'; ?></td>
-                    <td><?php echo $linha['populacao']; ?></td>
-                    <td><?php echo $linha['idioma']; ?></td>
-                    <td><?php echo $linha['moeda']; ?></td>
-                    <td>
-                        <a href="editar.php?id=<?php echo $linha['id_pais']; ?>" class="btn btn-warning">Editar</a>
-                        <button onclick="confirmarExclusao(<?php echo $linha['id_pais']; ?>, '<?php echo $linha['nome']; ?>', 'país')" class="btn btn-danger">Excluir</button>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Código ISO</th>
+                        <th>Capital</th>
+                        <th>Região</th>
+                        <th>Continente</th>
+                        <th>Governante</th>
+                        <th>População</th>
+                        <th>Idioma</th>
+                        <th>Moeda</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($linha = mysqli_fetch_assoc($resultado)) { ?>
+                    <tr>
+                        <td><?php echo $linha['id_pais']; ?></td>
+                        <td><?php echo htmlspecialchars($linha['nome'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['codigo_iso'] ?? '—', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['capital'] ?? '—', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['regiao'] ?? '—', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['nome_continente'] ?? 'Não definido', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['nome_governante'] ?? 'Não definido', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars((string) ($linha['populacao'] ?? '—'), ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['idioma'] ?? '—', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($linha['moeda'] ?? '—', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td>
+                            <a href="editar.php?id=<?php echo $linha['id_pais']; ?>" class="btn btn-warning">Editar</a>
+                            <button onclick="confirmarExclusao(<?php echo $linha['id_pais']; ?>, '<?php echo htmlspecialchars(addslashes($linha['nome']), ENT_QUOTES, 'UTF-8'); ?>', 'país')" class="btn btn-danger">Excluir</button>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <footer class="rodape">
